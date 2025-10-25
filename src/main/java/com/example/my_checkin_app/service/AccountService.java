@@ -1,19 +1,21 @@
 package com.example.my_checkin_app.service;
 
-import com.example.my_checkin_app.repository.AccountRepository;
-import com.example.my_checkin_app.entity.Account;
-import com.example.my_checkin_app.exceptions.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.example.my_checkin_app.entity.Account;
+import com.example.my_checkin_app.repository.AccountRepository;
 
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Account createAccount(Account account) {
