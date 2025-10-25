@@ -1,4 +1,4 @@
-package com.example.my_checkin_app.controller;
+    package com.example.my_checkin_app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
