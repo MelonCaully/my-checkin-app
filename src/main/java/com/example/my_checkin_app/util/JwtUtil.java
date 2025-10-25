@@ -1,5 +1,6 @@
 package com.example.my_checkin_app.util;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long expirationTime = 86400000; // 1 day in milliseconds
+    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final long expirationTime = 86400000; // 1 day in milliseconds
 
     public String generateToken(String username) {
         return Jwts.builder()
@@ -45,5 +46,13 @@ public class JwtUtil {
                 .getBody()
                 .getExpiration();
         return expiration.before(new Date());
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }

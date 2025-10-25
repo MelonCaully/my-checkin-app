@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.my_checkin_app.entity.*;
 import com.example.my_checkin_app.service.*;
+import com.example.my_checkin_app.util.JwtUtil;
 
 @RestController
 @RequestMapping("my-checkin")
