@@ -29,6 +29,7 @@ public class MyCheckInController {
     @PostMapping("login")
     public ResponseEntity<Account> handlerLoginAccount(@RequestBody Account account) {
         Account login = accountService.loginAccount(account.getUsername(), account.getPassword());
-        return ResponseEntity.status(HttpStatus.OK).body(login);
+        String token = jwtUtil.generateToken(login.getUsername());
+        return ResponseEntity.ok(token);
     }
 } 
