@@ -1,4 +1,4 @@
-    package com.example.my_checkin_app.controller;
+package com.example.my_checkin_app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,5 +23,12 @@ public class MyCheckInController {
     public ResponseEntity<Account> handlerCreateAccount(@RequestBody Account account) {
         Account registered = accountService.createAccount(account);
         return ResponseEntity.status(HttpStatus.OK).body(registered);
+    }
+
+    // endpoint for logging in
+    @PostMapping("login")
+    public ResponseEntity<Account> handlerLoginAccount(@RequestBody Account account) {
+        Account login = accountService.loginAccount(account.getUsername(), account.getPassword());
+        return ResponseEntity.status(HttpStatus.OK).body(login);
     }
 } 
