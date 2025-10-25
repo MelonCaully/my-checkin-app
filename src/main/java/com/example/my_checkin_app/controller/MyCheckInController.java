@@ -12,6 +12,7 @@ import com.example.my_checkin_app.service.*;
 @RequestMapping("my-checkin")
 public class MyCheckInController {
     private final AccountService accountService;
+    private JwtUtil jwtUtil;
     
     @Autowired
     public MyCheckInController(AccountService accountService) {
