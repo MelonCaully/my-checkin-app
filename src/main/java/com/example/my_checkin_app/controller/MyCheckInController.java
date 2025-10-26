@@ -11,13 +11,15 @@ import com.example.my_checkin_app.util.JwtUtil;
 
 @RestController
 @RequestMapping("my-checkin")
+@CrossOrigin(origins = "http://localhost:5173") // your frontend URL
 public class MyCheckInController {
     private final AccountService accountService;
     private JwtUtil jwtUtil;
     
     @Autowired
-    public MyCheckInController(AccountService accountService) {
+    public MyCheckInController(AccountService accountService, JwtUtil jwtUtil) {
         this.accountService = accountService;
+        this.jwtUtil = jwtUtil;
     }
 
     // endpoint for creating account
