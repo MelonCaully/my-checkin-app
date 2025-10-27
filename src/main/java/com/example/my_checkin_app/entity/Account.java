@@ -6,25 +6,23 @@ import jakarta.persistence.*;
 @Table(name = "accounts")
 public class Account {
     
-    @Column(name = "accountId")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer accountId;
+
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
     // Constructors
     public Account() {}
 
     public Account(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
-
-    public Account(Integer accountId, String username, String password, String email) {
-        this.accountId = accountId;
         this.username = username;
         this.password = password;
         this.email = email;

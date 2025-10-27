@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.example.my_checkin_app.entity.Account;
 import com.example.my_checkin_app.repository.AccountRepository;
 import com.example.my_checkin_app.exceptions.AccountValidationException;
-import com.example.my_checkin_app.exceptions.AccountUsernameExistsException;
+import com.example.my_checkin_app.exceptions.AccountUsernameOrEmailExistsException;
 import com.example.my_checkin_app.exceptions.InvalidCredentialsException;
 import com.example.my_checkin_app.exceptions.AccountNotFoundException;
 
@@ -23,22 +23,22 @@ public class AccountService {
     }
 
     public Account createAccount(Account account) {
-        if (account.getUsername().isBlank() || account.getPassword().length() < 4) {
+        if (account.getUsername().isBlank() || account.getPassword().length() < 4 || account.getEmail().isBlank()) {
             throw new AccountValidationException();
         }
-        if (accountRepository.findByUsername(account.getUsername()).isPresent()) {
-            throw new AccountUsernameExistsException(account.getUsername());
+        if (accountRepository.findByUsername(account.getUsername()).isPresent() || accountRepository.findByEmail(account.getEmail()).isPresent()) {
+            throw new AccountUsernameOrEmailExistsException(account.getUsername(), account.getEmail());
         }
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         return accountRepository.save(account);
     }
 
-    public Account loginAccount(String username, String password) {
-        Account account = accountRepository.findByUsername(username)
-                .orElseThrow(() -> new AccountNotFoundException(username));
+    public Account loginAccount(String email, String password) {
+        Account account = accountRepository.findByEmail(email)
+                .orElseThrow(() -> new AccountNotFoundException(email));
 
         if (!passwordEncoder.matches(password, account.getPassword())) {
-            throw new InvalidCredentialsException();
+            throw new InvalidCredentialsException(email);
         }
         return account;
     }

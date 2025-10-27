@@ -17,8 +17,8 @@ public class GlobalExceptionHandler {
     }
 
     // handles thrown AccountUsernameExistsExceptions
-    @ExceptionHandler(AccountUsernameExistsException.class)
-    public ResponseEntity<String> handlerAccountUsernameExists(AccountUsernameExistsException ex) {
+    @ExceptionHandler(AccountUsernameOrEmailExistsException.class)
+    public ResponseEntity<String> handlerAccountUsernameExists(AccountUsernameOrEmailExistsException ex) {
         return ResponseEntity
               .status(HttpStatus.CONFLICT)
               .body(ex.getMessage());

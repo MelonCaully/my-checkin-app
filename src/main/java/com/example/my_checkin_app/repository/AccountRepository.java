@@ -7,5 +7,5 @@ import com.example.my_checkin_app.entity.Account;
 
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     Optional<Account> findByUsername(String username);
-    Optional<Account> findByUsernameAndPassword(String username, String password);
+    Optional<Account> findByEmail(String email);
 }

@@ -11,16 +11,16 @@ public class JwtUtil {
     private static final Key KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
 
-    public String generateToken(String username) {
+    public String generateToken(String email) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(KEY)
                 .compact();
     }
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(KEY)
                 .build()
@@ -29,9 +29,9 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    public boolean isTokenValid(String token, String username) {
-        String extractedUsername = extractUsername(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
+    public boolean isTokenValid(String token, String email) {
+        String extractedEmail = extractEmail(token);
+        return (extractedEmail.equals(email) && !isTokenExpired(token));
     }
 
     private boolean isTokenExpired(String token) {
@@ -44,9 +44,9 @@ public class JwtUtil {
         return expiration.before(new Date());
     }
 
-    public Boolean validateToken(String token, String username) {
-        final String tokenUsername = extractUsername(token);
-        return (tokenUsername.equals(username) && !isTokenExpired(token));
+    public Boolean validateToken(String token, String email) {
+        final String tokenEmail = extractEmail(token);
+        return (tokenEmail.equals(email) && !isTokenExpired(token));
     }
 
     /*

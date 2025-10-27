@@ -2,6 +2,7 @@ package com.example.my_checkin_app.config;
 
 import java.io.IOException;
 
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,16 +34,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         
         final String header = request.getHeader("Authorization");
-        String username = null;
+        String email = null;
         String jwt = null;
 
         if (header != null && header.startsWith("Bearer ")) {
             jwt = header.substring(7);
-            username = jwtUtil.extractUsername(jwt);
+            email = jwtUtil.extractEmail(jwt);
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             if (jwtUtil.validateToken(jwt, userDetails.getUsername())) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

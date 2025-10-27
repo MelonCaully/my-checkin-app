@@ -32,8 +32,8 @@ public class MyCheckInController {
     // endpoint for logging in
     @PostMapping("login")
     public ResponseEntity<String> handlerLoginAccount(@RequestBody Account account) {
-        Account login = accountService.loginAccount(account.getUsername(), account.getPassword());
-        String token = jwtUtil.generateToken(login.getUsername());
-        return ResponseEntity.ok(token);
+        Account login = accountService.loginAccount(account.getEmail(), account.getPassword());
+        String token = jwtUtil.generateToken(login.getEmail());
+        return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 } 
